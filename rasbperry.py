@@ -5,14 +5,14 @@ from matplotlib import pyplot as plt
 
 def furn(data):
     yf = scipy.fftpack.fft(data)
-    an = {}
+    an = []
     for i in range(len(yf)):
         x = abs(yf[i])
         if "e" in str(x):
             x = 0.0
-        an[i] = round(x)
+        an.append(round(x))
     an[0] = 0
-    return an
+    return an[:len(an) // 2]
 
 
 def processing(data):
@@ -50,8 +50,8 @@ def main():
             data = list(map(int, data.split()))
             urllib.request.urlopen("http://192.168.2.1/1")
             result = processing(data)
-            x = result["as"].keys()
-            y = result["as"].values()
+            x = range(len(result["as"]))
+            y = result["as"]
             plt.plot(x, y)
             plt.title("micro1")
             print("micro1")
@@ -67,8 +67,8 @@ def main():
             data2 = list(map(int, data2.split()))
             urllib.request.urlopen(esp_addr+"/1")
             result2 = processing(data2)
-            x = result2["as"].keys()
-            y = result2["as"].values()
+            x = range(len(result2["as"]))
+            y = result2["as"]
             plt.plot(x, y)
             plt.title("micro2")
             print("micro2")
